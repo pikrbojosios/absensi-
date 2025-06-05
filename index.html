@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Absensi PIK-R Bojo Sios</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f8ff;
+      overflow: hidden;
+    }
+
+    .page {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+      max-width: 400px;
+      width: 90%;
+      z-index: 2;
+    }
+
+    .form-box img {
+      width: 185px;
+      margin-bottom: 15px;
+    }
+
+    .form-box h1 {
+      color: #0056b3;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #cce5ff;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 15px;
+    }
+
+    .pik-text {
+      color: #fff;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 700px;
+      white-space: pre-wrap;
+      overflow: hidden;
+      border-right: 2px solid #87ceeb;
+      animation:
+        typing 7s steps(120, end) forwards,
+        blink 0.75s step-end infinite;
+      width: 0;
+      z-index: 2;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* Background Slideshow */
+    .slideshow-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,50,0.5);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Halaman 1: Form Absensi -->
+  <div class="page active" id="page1">
+    <div class="form-box">
+      <img src="https://img1.pixhost.to/images/6267/607584090_reyytourl.jpg" alt="Logo PIK-R">
+      <h1>Absensi PIK-R Bojo Sios</h1>
+      <form id="absenForm" action="https://formspree.io/f/mldndady" method="POST">
+        <input type="text" name="Nama" placeholder="Nama Lengkap" required />
+        <input type="date" name="Tanggal" id="tanggal" required />
+        <select name="Keterangan" required>
+          <option value="">Pilih Keterangan</option>
+          <option value="Seleksi Pik R">Seleksi Pik R</option>
+        </select>
+        <button type="submit">Kirim Absensi</button>
+      </form>
+      <div class="footer">© 2025 PIK-R Bojo Sios</div>
+    </div>
+  </div>
+
+  <!-- Halaman 2: Kata-kata dan slideshow -->
+  <div class="page" id="page2">
+    <div class="slideshow-bg" id="slideshow"></div>
+    <div class="overlay"></div>
+    <div class="pik-text">
+✅ Terima kasih telah mengisi absensi, Sobat PIK-R Bojo Sios! 💙
+
+Kehadiranmu hari ini bukan sekadar formalitas — ini adalah bukti bahwa kamu peduli, aktif, dan siap menjadi bagian dari generasi yang lebih baik.
+
+PIK-R Bojo Sios hadir bukan hanya untuk menyuarakan suara remaja, tapi untuk membentuk karakter, memperkuat semangat, dan menumbuhkan solidaritas.
+
+Tetap semangat belajar, berkarya, dan berbagi. Karena remaja hebat seperti kamu adalah harapan masa depan bangsa! 🇮🇩
+    </div>
+    <audio id="bgm" src="https://files.catbox.moe/bckgq6.mp3" autoplay loop playsinline></audio>
+  </div>
+
+  <script>
+    document.getElementById('tanggal').valueAsDate = new Date();
+
+    const form = document.getElementById('absenForm');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const slideshow = document.getElementById('slideshow');
+    const music = document.getElementById('bgm');
+
+    const images = [
+      'https://img1.pixhost.to/images/6268/607604546_reyytourl.jpg',
+      'https://img1.pixhost.to/images/6268/607605164_reyytourl.jpg',
+      'https://img1.pixhost.to/images/6268/607605696_reyytourl.jpg'
+      // Ganti dengan foto kegiatan asli
+    ];
+    let currentImg = 0;
+
+    function startSlideshow() {
+      slideshow.style.backgroundImage = `url('${images[currentImg]}')`;
+      setInterval(() => {
+        currentImg = (currentImg + 1) % images.length;
+        slideshow.style.backgroundImage = `url('${images[currentImg]}')`;
+      }, 4000);
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const action = form.getAttribute('action');
+
+      const response = await fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        page1.classList.remove('active');
+        page2.classList.add('active');
+        startSlideshow();
+
+        music.volume = 0.5;
+        music.play().catch(() => {
+          alert("🔇 Musik diblokir. Tekan Play manual.");
+        });
+      } else {
+        alert("❌ Gagal kirim absensi.");
+      }
+    });
+  </script>
+
+</body>
+</html>
